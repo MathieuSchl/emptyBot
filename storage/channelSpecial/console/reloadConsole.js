@@ -1,7 +1,7 @@
 const config = require("../../config.json");
 const fs = require("fs");
 const path = config.location+"ConsoleFile.txt";
-const idChannel = "796444984647614474";
+const idChannel = config.idConsoleChannel;
 
 
 module.exports.run = async (bot) => {

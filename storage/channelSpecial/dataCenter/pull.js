@@ -2,7 +2,7 @@ const {
     exec
 } = require('child_process');
 const config = require('../../config.json');
-const idGitChannel = "796446115083976725";
+const idGitChannel = config.idPullChannel;
 
 
 async function pull(bot, GitChannel, terminalChannel) {
