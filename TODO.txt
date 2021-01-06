@@ -1,0 +1,4 @@
+Add event "guildMemberAdd" and "guildMemberRemove" with specialsGuilds
+Add event "voiceStateUpdate" with specialsVoiceChannels
+
+"invalidated", "debug", "error"
