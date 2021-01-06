@@ -8,7 +8,7 @@ module.exports.run = async (bot) => {
 
     for (let index = 0; index < allGuilds.length; index++) {
         const element = allGuilds[index];
-        if(element.rulesChannelID!=null){
+        if (element.rulesChannelID != null) {
             channel = await bot.channels.fetch(element.rulesChannelID);
             channel.messages.fetch();
         }
@@ -24,9 +24,9 @@ module.exports.run = async (bot) => {
         }
         for (let i = 0; i < files.length; i++) {
             let channel = await bot.channels.fetch(files[i]);
-            if(channel==null){
-                console.log("Channel "+files[i]+" does not exist");
-            }else{
+            if (channel == null) {
+                console.log("Channel " + files[i] + " does not exist");
+            } else {
                 channel.messages.fetch();
             }
         }
@@ -42,12 +42,18 @@ module.exports.run = async (bot) => {
             let dataSpecialMessage = JSON.parse(fichiers);
 
             let channel = await bot.channels.fetch(dataSpecialMessage.channel);
-            if(channel==null){
-                console.log("Message "+files[i].split(".")[0]+" does not exist");
-            }else{
+            if (channel == null) {
+                console.log("Message " + files[i].split(".")[0] + " does not exist");
+            } else {
                 channel.messages.fetch();
             }
         }
+    });
+
+    const channelsToFetch = require("../storage/data/generalData.json").channelsToFetch;
+    channelsToFetch.forEach(async(element) => {
+        const channel=await bot.channels.fetch(element);
+        channel.messages.fetch();
     });
 };
 

@@ -23,6 +23,26 @@ bot.on("message", message =>{
     }
 });
 
+bot.on("messageReactionAdd", (reaction, user) => {
+    try {
+        bot.enventIndex.get("reactions").addReaction(bot, reaction, user);
+    } catch (e) {
+        console.log("Error in the messageReactionAdd event\n---------\n");
+        console.log(e);
+        console.log("\n\n")
+    }
+});
+
+bot.on("messageReactionRemove", (reaction, user) => {
+    try {
+        bot.enventIndex.get("reactions").removeReaction(bot, reaction, user);
+    } catch (e) {
+        console.log("Error in the messageReactionAdd event\n---------\n");
+        console.log(e);
+        console.log("\n\n")
+    }
+});
+
 
 async function start(){
     try {
