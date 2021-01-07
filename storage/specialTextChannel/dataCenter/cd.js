@@ -35,7 +35,7 @@ function go(path,folder){
 
 module.exports.run = async (bot, message, args)=>{
     if(args.length===1){
-        bot.specialChannel.game.get("ls").run(bot,message,args);
+        bot.specialTextChannel.dataCenter.get("ls").run(bot,message,args);
         return
     }
 
@@ -59,13 +59,13 @@ module.exports.run = async (bot, message, args)=>{
             var res = await go(pwd,pathChange[i]);
             pwd = res;
             if (pwd===undefined){
-                bot.specialChannel.dataCenter.get("ls").run(bot,message,args);
+                bot.specialTextChannel.dataCenter.get("ls").run(bot,message,args);
                 await bot.basicFunctions.get("wait").run(500);
                 message.channel.send("`"+pathChange[i]+"` n'est pas un dossier valide");
                 return ;
             }
             if (pwd===null){
-                bot.specialChannel.dataCenter.get("ls").run(bot,message,args);
+                bot.specialTextChannel.dataCenter.get("ls").run(bot,message,args);
                 await bot.basicFunctions.get("wait").run(500);
                 message.channel.send("Vous êtes à la racine");
                 return ;
@@ -77,7 +77,7 @@ module.exports.run = async (bot, message, args)=>{
         }
     }
     await bot.basicFunctions.get("wait").run(250);
-    bot.specialChannel.dataCenter.get("ls").run(bot,message,args);
+    bot.specialTextChannel.dataCenter.get("ls").run(bot,message,args);
 };
 
 module.exports.help = {

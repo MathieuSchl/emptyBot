@@ -9,14 +9,14 @@ module.exports.run = async (bot, message, args) => {
 
     try{
         const channel = await bot.channels.fetch("791708217863307264");
-        await bot.specialChannel.documents.get("nuke").run(bot, channel.lastMessage, null);
+        await bot.specialTextChannel.documents.get("nuke").run(bot, channel.lastMessage, null);
     }catch{
         console.log("Channel documentation is deleted");
     }
 
     try{
         const channel = await bot.channels.fetch("788867019289788457");
-        await bot.specialChannel.createGame.get("nuke").run(bot, channel.lastMessage, null);
+        await bot.specialTextChannel.createGame.get("nuke").run(bot, channel.lastMessage, null);
     }catch{
         console.log("Channel CreateNew game is deleted");
     }

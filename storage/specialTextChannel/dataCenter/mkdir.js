@@ -10,7 +10,7 @@ module.exports.run = async (bot, message, args)=>{
     require('child_process').exec('mkdir '+realpwd+args[1], function (msg) { console.log(msg) });
 
     await bot.basicFunctions.get("wait").run(100);
-    bot.specialChannel.dataCenter.get("ls").run(bot,message,args);
+    bot.specialTextChannel.dataCenter.get("ls").run(bot,message,args);
 };
 
 module.exports.help = {

@@ -4,7 +4,7 @@ const system = "console";
 
 
 module.exports.run = async (bot, message, args) => {
-    bot.specialChannel[system].get("reloadConsole").run(bot);
+    bot.specialTextChannel[system].get("reloadConsole").run(bot);
 }
 
 module.exports.help = {

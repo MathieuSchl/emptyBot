@@ -6,13 +6,13 @@ module.exports.run = async (bot, message, args) => {
 
     try {
         if (Array.from(message.attachments.keys()).length !== 0) {
-            bot.specialChannel.dataCenter.get("giveFiles").run(bot, message, args);
+            bot.specialTextChannel.dataCenter.get("giveFiles").run(bot, message, args);
         } else {
-            bot.specialChannel.dataCenter.get(args[0]).run(bot, message, args);
+            bot.specialTextChannel.dataCenter.get(args[0]).run(bot, message, args);
         }
     } catch (error) {
         //console.log(error)
-        bot.specialChannel.dataCenter.get("ls").run(bot, message, args);
+        bot.specialTextChannel.dataCenter.get("ls").run(bot, message, args);
     }
 }
 

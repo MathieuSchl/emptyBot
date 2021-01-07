@@ -13,9 +13,9 @@ module.exports.run = async (bot) => {
     bot.enventIndex.get("runCronTables").run(bot);
     bot.enventIndex.get("catchMessageInSpecialChannels").run(bot);
 
-    bot.specialChannel.dataCenter.get("pull").ready(bot);
+    bot.specialTextChannel.dataCenter.get("pull").ready(bot);
 
-    bot.specialChannel["console"].get("reloadConsole").run(bot);
+    bot.specialTextChannel["console"].get("reloadConsole").run(bot);
 };
 
 

@@ -14,7 +14,7 @@ async function dlAll(bot, message, pwd) {
         }
 
         await bot.basicFunctions.get("wait").run(250);
-        bot.specialChannel.dataCenter.get("ls").run(bot, message, null);
+        bot.specialTextChannel.dataCenter.get("ls").run(bot, message, null);
         await bot.basicFunctions.get("wait").run(500);
         if (trueFile.length !== 0) {
             message.channel.send("Tous les fichiers de ce dossier ont été téléchargé", {
@@ -61,7 +61,7 @@ module.exports.run = async (bot, message, args) => {
             messToSend = "Le fichier `" + noFiles[0] + "` n'est pas un fichier valide";
             message.channel.send(messToSend);
             await bot.basicFunctions.get("wait").run(100);
-            bot.specialChannel.dataCenter.get("ls").run(bot, message, args);
+            bot.specialTextChannel.dataCenter.get("ls").run(bot, message, args);
             await bot.basicFunctions.get("wait").run(100);
             return;
         }
@@ -76,7 +76,7 @@ module.exports.run = async (bot, message, args) => {
         messToSend = messToSend + " ne sont pas des fichiers valides";
         if (files.length === 0) {
             await bot.basicFunctions.get("wait").run(100);
-            bot.specialChannel.dataCenter.get("ls").run(bot, message, args);
+            bot.specialTextChannel.dataCenter.get("ls").run(bot, message, args);
             await bot.basicFunctions.get("wait").run(100);
             message.channel.send(messToSend);
             return;
@@ -98,7 +98,7 @@ module.exports.run = async (bot, message, args) => {
         }
     }
     await bot.basicFunctions.get("wait").run(250);
-    bot.specialChannel.dataCenter.get("ls").run(bot, message, args);
+    bot.specialTextChannel.dataCenter.get("ls").run(bot, message, args);
     await bot.basicFunctions.get("wait").run(500);
     message.channel.send(messToSend, {
         files: files

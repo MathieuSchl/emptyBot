@@ -10,7 +10,7 @@ module.exports.run = async (bot, message, args) => {
     }
     try {
         let command = message.content.split(" ")[0].substr(1);
-        bot.specialChannel.usersCommands.get(command).run(bot, message, args);
+        bot.specialTextChannel.usersCommands.get(command).run(bot, message, args);
     } catch (e) {
         //console.log(e);
         //console.log("connais pas")

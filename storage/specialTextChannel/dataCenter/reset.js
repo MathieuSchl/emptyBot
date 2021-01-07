@@ -8,7 +8,7 @@ module.exports.run = async (bot, message, args) => {
     await bot.basicFunctions.get("teamData").write(message.channel.id,teamData);
 
     await bot.basicFunctions.get("wait").run(250);
-    bot.specialChannel.dataCenter.get("ls").run(bot, message, args);
+    bot.specialTextChannel.dataCenter.get("ls").run(bot, message, args);
 };
 
 module.exports.help = {
