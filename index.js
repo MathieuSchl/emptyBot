@@ -100,6 +100,7 @@ async function start() {
     try {
         bot.login(config.token).catch((error)=>{
             if(error.name==="FetchError") bot.specialTextChannel.dataCenter.get("raspReboot").run(bot, null, null);
+            else console.log(error);
         })
     } catch (e) {}
 
