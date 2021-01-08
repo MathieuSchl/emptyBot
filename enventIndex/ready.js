@@ -8,14 +8,18 @@ module.exports.run = async (bot) => {
     console.log("Logged in as : " + bot.user.tag);
     console.log(" ");
 
-    bot.basicFunctions.get("activity").run(bot);
-
-    bot.enventIndex.get("runCronTables").run(bot);
-    bot.enventIndex.get("catchMessageInSpecialChannels").run(bot);
-
-    bot.specialTextChannel.dataCenter.get("pull").ready(bot);
-
-    bot.specialTextChannel["console"].get("reloadConsole").run(bot);
+    try{
+        bot.basicFunctions.get("activity").run(bot);
+    
+        bot.enventIndex.get("runCronTables").run(bot);
+        bot.enventIndex.get("catchMessageInSpecialChannels").run(bot);
+    
+        bot.specialTextChannel.dataCenter.get("pull").ready(bot);
+    
+        bot.specialTextChannel["console"].get("reloadConsole").run(bot);
+    }catch{
+        bot.specialTextChannel.dataCenter.get("reboot").run(bot, message, args);
+    }
 };
 
 

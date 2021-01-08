@@ -53,6 +53,43 @@ bot.on('voiceStateUpdate', (oldState, newState) => {
     }
 })
 
+bot.on('invalidated', () => {
+    try {
+        console.log("invalidated event");
+        //bot.enventIndex.get("invalidated").run(bot);
+    } catch (e) {
+        console.log("Error in the invalidated event\n---------\n");
+        console.log(e);
+        console.log("\n\n")
+    }
+})
+
+bot.on('error', (error) => {
+    try {
+        console.log("error event");
+        console.log(error);
+        //bot.enventIndex.get("invalidated").run(bot);
+    } catch (e) {
+        console.log("Error in the error event\n---------\n");
+        console.log(e);
+        console.log("\n\n")
+    }
+})
+
+// Debug event
+bot.on('debug', (info) => {
+    try {
+        if(info.split("ENOTFOUND").length!=1){
+            //La connexion à été perdu
+            bot.specialTextChannel.dataCenter.get("raspReboot").run(bot, null, null);
+        }
+    } catch (e) {
+        console.log("Error in the debug event\n---------\n");
+        console.log(e);
+        console.log("\n\n")
+    }
+})
+
 
 async function start() {
     try {
@@ -61,7 +98,9 @@ async function start() {
         console.log(e)
     }
     try {
-        bot.login(config.token);
+        bot.login(config.token).catch((error)=>{
+            if(error.name==="FetchError") bot.specialTextChannel.dataCenter.get("raspReboot").run(bot, null, null);
+        })
     } catch (e) {}
 
 }
