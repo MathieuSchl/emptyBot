@@ -39,7 +39,7 @@ module.exports.run = async (bot) => {
 
     await fs.readdir(config.location + "/storage/", async(err, folders) => {
         for (let i = 0; i < folders.length; i++) {
-            if (fs.lstatSync(config.location + "/storage/" + folders[i]).isDirectory()) {
+            if (await fs.lstatSync(config.location + "/storage/" + folders[i]).isDirectory()) {
                 if(!banFolder.includes(folders[i])) await scanFolder(bot, config.location + "/storage/" + folders[i] + "/");
             }
         }
@@ -50,7 +50,7 @@ module.exports.run = async (bot) => {
         if (folders.length !== 0) {
             bot["specialTextChannel"] = {};
             for (let i = 0; i < folders.length; i++) {
-                if (fs.lstatSync(config.location + "/storage/specialTextChannel/" + folders[i]).isDirectory()) {
+                if (await fs.lstatSync(config.location + "/storage/specialTextChannel/" + folders[i]).isDirectory()) {
                     await scanFolder(bot["specialTextChannel"], config.location + "/storage/specialTextChannel/" + folders[i] + "/");
                 }
             }
@@ -62,7 +62,7 @@ module.exports.run = async (bot) => {
         if (folders.length !== 0) {
             bot["messageSpecial"] = {};
             for (let i = 0; i < folders.length; i++) {
-                if (fs.lstatSync(config.location + "/storage/messageSpecial/" + folders[i]).isDirectory()) {
+                if (await fs.lstatSync(config.location + "/storage/messageSpecial/" + folders[i]).isDirectory()) {
                     await scanFolder(bot["messageSpecial"], config.location + "/storage/messageSpecial/" + folders[i] + "/");
                 }
             }
@@ -74,8 +74,20 @@ module.exports.run = async (bot) => {
         if (folders.length !== 0) {
             bot["specialVoiceChannels"] = {};
             for (let i = 0; i < folders.length; i++) {
-                if (fs.lstatSync(config.location + "/storage/specialVoiceChannels/" + folders[i]).isDirectory()) {
+                if (await fs.lstatSync(config.location + "/storage/specialVoiceChannels/" + folders[i]).isDirectory()) {
                     await scanFolder(bot["specialVoiceChannels"], config.location + "/storage/specialVoiceChannels/" + folders[i] + "/");
+                }
+            }
+        }
+        return;
+    });
+
+    await fs.readdir(config.location + "/storage/specialGuilds", async(err, folders) => {
+        if (folders.length !== 0) {
+            bot["specialGuilds"] = {};
+            for (let i = 0; i < folders.length; i++) {
+                if (await fs.lstatSync(config.location + "/storage/specialGuilds/" + folders[i]).isDirectory()) {
+                    await scanFolder(bot["specialGuilds"], config.location + "/storage/specialGuilds/" + folders[i] + "/");
                 }
             }
         }

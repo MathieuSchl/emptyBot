@@ -18,7 +18,8 @@ module.exports.run = async (bot) => {
     
         bot.specialTextChannel["console"].get("reloadConsole").run(bot);
     }catch{
-        bot.specialTextChannel.dataCenter.get("reboot").run(bot, message, args);
+        console.log(bot);
+        //bot.specialTextChannel.dataCenter.get("reboot").run(bot, message, args);
     }
 };
 

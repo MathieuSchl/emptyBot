@@ -53,6 +53,28 @@ bot.on('voiceStateUpdate', (oldState, newState) => {
     }
 })
 
+//guildMemberAdd
+
+bot.on('guildMemberAdd', (member) => {
+    try {
+        bot.enventIndex.get("guildMember").add(bot, member);
+    } catch (e) {
+        console.log("Error in the guildMemberAdd event\n---------\n");
+        console.log(e);
+        console.log("\n\n")
+    }
+})
+
+bot.on('guildMemberRemove', (member) => {
+    try {
+        bot.enventIndex.get("guildMember").remove(bot, member);
+    } catch (e) {
+        console.log("Error in the guildMemberRemove event\n---------\n");
+        console.log(e);
+        console.log("\n\n")
+    }
+})
+
 bot.on('invalidated', () => {
     try {
         console.log("invalidated event");
@@ -98,10 +120,12 @@ async function start() {
         console.log(e)
     }
     try {
-        bot.login(config.token).catch((error)=>{
-            if(error.name==="FetchError") bot.specialTextChannel.dataCenter.get("raspReboot").run(bot, null, null);
-            else console.log(error);
-        })
+        setTimeout(() => {
+            bot.login(config.token).catch((error)=>{
+                if(error.name==="FetchError") bot.specialTextChannel.dataCenter.get("raspReboot").run(bot, null, null);
+                else console.log(error);
+            })
+        }, 2000);
     } catch (e) {}
 
 }
