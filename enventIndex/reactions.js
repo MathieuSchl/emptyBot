@@ -31,19 +31,6 @@ async function getMessageData(bot, reaction, user) {
     try {
         fichiers = fs.readFileSync(config.location + "/storage/data/specialMessageList/" + reaction.message.id + ".json");
         let dataSpecialMessage = JSON.parse(fichiers);
-
-        /*
-        try{
-            const index = dataSpecialMessage.emoji.indexOf(reaction["_emoji"].name);
-            if(index===-1) return false;
-            bot.messageSpecial[dataSpecialMessage.type[index]].get("index").run(bot, reaction, user, action, dataSpecialMessage);
-
-        }catch(e){
-            console.log(e);
-        }
-        //bot.messageSpecial.get(dataSpecialMessage.type).run(bot, reaction, user, action);
-        */
-
         return dataSpecialMessage;
     } catch (e) {
         return false;
@@ -52,7 +39,7 @@ async function getMessageData(bot, reaction, user) {
 
 module.exports.addReaction = async (bot, reaction, user) => {
     if (await check(bot, reaction, user)) return;
-    const messageData = await getMessageData(bot, reaction, user);
+    const messageData = await bot.basicFunctions.get("specialMessageFiles").open(reaction.message.id);
     if (!messageData) return;
 
     const index = messageData.emoji.indexOf(reaction["_emoji"].name);

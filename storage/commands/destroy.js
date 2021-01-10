@@ -9,6 +9,7 @@ module.exports.run = async (bot, message, dataSpecialChannel)=>{
     bot.user.setActivity("Arrêt en cours", {type: "WATCHING"});
     await bot.basicFunctions.get("wait").run(2500);
     bot.destroy();
+    bot.enventIndex.get("cronTab").stop(bot);
 };
 
 

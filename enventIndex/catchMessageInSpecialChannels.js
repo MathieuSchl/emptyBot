@@ -23,11 +23,11 @@ module.exports.run = async (bot) => {
             files[i] = files[i].split(".")[0];
         }
         for (let i = 0; i < files.length; i++) {
-            let channel = await bot.channels.fetch(files[i]);
-            if (channel == null) {
-                console.log("Channel " + files[i] + " does not exist");
-            } else {
+            try {
+                let channel = await bot.channels.fetch(files[i]);
                 channel.messages.fetch();
+            } catch (e) {
+                fs.unlinkSync(pathSpecialChannels + files[i] + ".json");
             }
         }
     });
@@ -41,18 +41,20 @@ module.exports.run = async (bot) => {
             fichiers = fs.readFileSync(config.location + "/storage/data/specialMessageList/" + files[i]);
             let dataSpecialMessage = JSON.parse(fichiers);
 
-            let channel = await bot.channels.fetch(dataSpecialMessage.channel);
-            if (channel == null) {
-                console.log("Message " + files[i].split(".")[0] + " does not exist");
-            } else {
-                channel.messages.fetch();
+            try {
+                let channel = await bot.channels.fetch(dataSpecialMessage.channel);
+                channel.messages.fetch(dataSpecialMessage.id).catch(()=>{
+                    fs.unlinkSync(config.location + "/storage/data/specialMessageList/" + files[i]);
+                });
+            } catch {
+                fs.unlinkSync(config.location + "/storage/data/specialMessageList/" + files[i]);
             }
         }
     });
 
     const channelsToFetch = require("../storage/data/generalData.json").channelsToFetch;
-    channelsToFetch.forEach(async(element) => {
-        const channel=await bot.channels.fetch(element);
+    channelsToFetch.forEach(async (element) => {
+        const channel = await bot.channels.fetch(element);
         channel.messages.fetch();
     });
 };

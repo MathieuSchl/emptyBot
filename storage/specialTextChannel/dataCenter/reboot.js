@@ -8,6 +8,7 @@ module.exports.run = async (bot, message, dataSpecialChannel)=>{
         await bot.basicFunctions.get("wait").run(5500);
     }
     bot.destroy();
+    bot.enventIndex.get("cronTab").stop(bot);
     await bot.basicFunctions.get("wait").run(5000);
     require('child_process').exec(`node ${config.location}/index.js`, function (msg) { console.log(msg) });
 };

@@ -1,3 +1,3 @@
 Add an init command
-Add cronTable for Reload console and pull
-Fonction qui créer le json des messages pour la fonction addRole
+In the 'catchMessageInSpecialChannels' verify if guild and voiceChannel exist
+Rename teamData Function
