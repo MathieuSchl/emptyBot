@@ -6,8 +6,7 @@ module.exports.run = async (bot,message)=>{
         fichiers = fs.readFileSync(config.location+"/storage/data/specialChannelList/"+message.channel.id+".json");
         let dataSpecialChannel = JSON.parse(fichiers);
 
-        let args = message.content.split(" ");
-        bot["specialChannel"][dataSpecialChannel.type].get("index").run(bot,message,args);
+        bot["specialTextChannel"][dataSpecialChannel.type].get("index").run(bot,message,dataSpecialChannel);
         return true
     }catch(e){
         return false

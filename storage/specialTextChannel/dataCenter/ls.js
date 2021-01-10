@@ -4,9 +4,8 @@ const fs = require("fs");
 const pathToAdd = config.location + "storage/data/";
 
 
-module.exports.run = async (bot, message, args)=>{
-    let teamData = await bot.basicFunctions.get("teamData").open(message.channel.id);
-    let pwd = teamData.data.pwd;
+module.exports.run = async (bot, message, dataSpecialChannel)=>{
+    let pwd = dataSpecialChannel.data.pwd;
 
 
     if (pwd===""){

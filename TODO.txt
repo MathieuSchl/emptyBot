@@ -1,3 +1,2 @@
-Add event "guildMemberAdd" and "guildMemberRemove" with specialsGuilds
-
-read "invalidated", "debug", "error"
+Add an init command
+Add cronTable for Reload console and pull

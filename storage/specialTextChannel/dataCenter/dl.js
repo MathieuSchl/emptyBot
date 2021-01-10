@@ -3,7 +3,7 @@ const fs = require("fs");
 const pathToAdd = config.location + "storage/data/"
 
 
-async function dlAll(bot, message, pwd) {
+async function dlAll(bot, message, pwd, dataSpecialChannel) {
     message.delete();
     fs.readdir(pwd, async (err, files) => {
         let trueFile = [];
@@ -14,13 +14,13 @@ async function dlAll(bot, message, pwd) {
         }
 
         await bot.basicFunctions.get("wait").run(250);
-        bot.specialTextChannel.dataCenter.get("ls").run(bot, message, null);
+        bot.specialTextChannel.dataCenter.get("ls").run(bot, message, dataSpecialChannel);
         await bot.basicFunctions.get("wait").run(500);
         if (trueFile.length !== 0) {
             message.channel.send("Tous les fichiers de ce dossier ont été téléchargé", {
                 files: trueFile
             })
-            
+
             /*
             if (trueFile.length < 10) {
             }else{
@@ -31,13 +31,13 @@ async function dlAll(bot, message, pwd) {
     });
 }
 
-module.exports.run = async (bot, message, args) => {
-    let teamData = await bot.basicFunctions.get("teamData").open(message.channel.id);
-    let pwd = teamData.data.pwd;
+module.exports.run = async (bot, message, dataSpecialChannel) => {
+    let args = message.content.split(" ");
+    let pwd = dataSpecialChannel.data.pwd;
 
     let realPwd = pathToAdd + pwd;
     if (args[1] === "*") {
-        dlAll(bot, message, realPwd);
+        dlAll(bot, message, realPwd, dataSpecialChannel);
         return;
     }
 
@@ -61,7 +61,7 @@ module.exports.run = async (bot, message, args) => {
             messToSend = "Le fichier `" + noFiles[0] + "` n'est pas un fichier valide";
             message.channel.send(messToSend);
             await bot.basicFunctions.get("wait").run(100);
-            bot.specialTextChannel.dataCenter.get("ls").run(bot, message, args);
+            bot.specialTextChannel.dataCenter.get("ls").run(bot, message, dataSpecialChannel);
             await bot.basicFunctions.get("wait").run(100);
             return;
         }
@@ -76,7 +76,7 @@ module.exports.run = async (bot, message, args) => {
         messToSend = messToSend + " ne sont pas des fichiers valides";
         if (files.length === 0) {
             await bot.basicFunctions.get("wait").run(100);
-            bot.specialTextChannel.dataCenter.get("ls").run(bot, message, args);
+            bot.specialTextChannel.dataCenter.get("ls").run(bot, message, dataSpecialChannel);
             await bot.basicFunctions.get("wait").run(100);
             message.channel.send(messToSend);
             return;
@@ -98,7 +98,7 @@ module.exports.run = async (bot, message, args) => {
         }
     }
     await bot.basicFunctions.get("wait").run(250);
-    bot.specialTextChannel.dataCenter.get("ls").run(bot, message, args);
+    bot.specialTextChannel.dataCenter.get("ls").run(bot, message, dataSpecialChannel);
     await bot.basicFunctions.get("wait").run(500);
     message.channel.send(messToSend, {
         files: files

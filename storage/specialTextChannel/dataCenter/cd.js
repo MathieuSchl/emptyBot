@@ -33,14 +33,14 @@ function go(path,folder){
 }
 
 
-module.exports.run = async (bot, message, args)=>{
+module.exports.run = async (bot, message, dataSpecialChannel)=>{
+    let args = message.content.split(" ");
     if(args.length===1){
-        bot.specialTextChannel.dataCenter.get("ls").run(bot,message,args);
+        bot.specialTextChannel.dataCenter.get("ls").run(bot,message,dataSpecialChannel);
         return
     }
 
-    let teamData = await bot.basicFunctions.get("teamData").open(message.channel.id);
-    let pwd = teamData.data.pwd;
+    let pwd = dataSpecialChannel.data.pwd;
 
     args.splice(0, 1);
     var pathChange = "";
@@ -59,25 +59,25 @@ module.exports.run = async (bot, message, args)=>{
             var res = await go(pwd,pathChange[i]);
             pwd = res;
             if (pwd===undefined){
-                bot.specialTextChannel.dataCenter.get("ls").run(bot,message,args);
+                bot.specialTextChannel.dataCenter.get("ls").run(bot,message,dataSpecialChannel);
                 await bot.basicFunctions.get("wait").run(500);
                 message.channel.send("`"+pathChange[i]+"` n'est pas un dossier valide");
                 return ;
             }
             if (pwd===null){
-                bot.specialTextChannel.dataCenter.get("ls").run(bot,message,args);
+                bot.specialTextChannel.dataCenter.get("ls").run(bot,message,dataSpecialChannel);
                 await bot.basicFunctions.get("wait").run(500);
                 message.channel.send("Vous êtes à la racine");
                 return ;
             }
 
             
-            teamData.data.pwd = pwd; 
-            await bot.basicFunctions.get("teamData").write(message.channel.id,teamData);
+            dataSpecialChannel.data.pwd = pwd;
+            await bot.basicFunctions.get("teamData").write(message.channel.id,dataSpecialChannel);
         }
     }
     await bot.basicFunctions.get("wait").run(250);
-    bot.specialTextChannel.dataCenter.get("ls").run(bot,message,args);
+    bot.specialTextChannel.dataCenter.get("ls").run(bot,message,dataSpecialChannel);
 };
 
 module.exports.help = {

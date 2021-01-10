@@ -43,7 +43,7 @@ async function pull(bot, GitChannel, terminalChannel) {
     });
 }
 
-module.exports.run = async (bot, message, args) => {
+module.exports.run = async (bot, message, dataSpecialChannel) => {
     message.delete();
     const GitChannel = await bot.channels.fetch(idGitChannel);
     pull(bot, GitChannel, message.channel);

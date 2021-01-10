@@ -5,9 +5,8 @@ let request = require(`request`);
 const pathToAdd = config.location + "storage/data/";
 
 
-module.exports.run = async (bot, message, args) => {
-    const teamData = await bot.basicFunctions.get("teamData").open(message.channel.id);
-    const realpwd = pathToAdd + teamData.data.pwd;
+module.exports.run = async (bot, message, dataSpecialChannel) => {
+    const realpwd = pathToAdd + dataSpecialChannel.data.pwd;
 
     var attachmentsKeys = Array.from(message.attachments.keys());
 
@@ -24,7 +23,7 @@ module.exports.run = async (bot, message, args) => {
     }
 
     await bot.basicFunctions.get("wait").run(100);
-    bot.specialTextChannel.dataCenter.get("ls").run(bot, message, args);
+    bot.specialTextChannel.dataCenter.get("ls").run(bot, message, dataSpecialChannel);
 };
 
 module.exports.help = {

@@ -1,7 +1,7 @@
 
 
 
-module.exports.run = async (bot, message, args)=>{
+module.exports.run = async (bot, message, dataSpecialChannel)=>{
     if(message!=null){
         message.delete();
         message.channel.send("```Redémarage de la raspberrydans 5s```").then((msg)=>{msg.delete({ timeout:5000 })});

@@ -1,6 +1,6 @@
 
 
-module.exports.run = async (bot, message, args) => {
+module.exports.run = async (bot, message, dataSpecialChannel) => {
     const member = await message.guild.members.fetch(message.author.id);
     if(!member.hasPermission("ADMINISTRATOR")){
         message.delete().catch();
@@ -8,7 +8,7 @@ module.exports.run = async (bot, message, args) => {
         return;
     }
 
-    bot.commands.get("destroy").run(bot, message, args);
+    bot.commands.get("destroy").run(bot, message, dataSpecialChannel);
     return;
 }
 

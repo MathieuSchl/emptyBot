@@ -1,14 +1,12 @@
 
 
 
-module.exports.run = async (bot, message, args) => {
-    
-    let teamData = await bot.basicFunctions.get("teamData").open(message.channel.id);
-    teamData.data.pwd = "/";
-    await bot.basicFunctions.get("teamData").write(message.channel.id,teamData);
+module.exports.run = async (bot, message, dataSpecialChannel) => {
+    dataSpecialChannel.data.pwd = "/";
+    await bot.basicFunctions.get("teamData").write(message.channel.id,dataSpecialChannel);
 
     await bot.basicFunctions.get("wait").run(250);
-    bot.specialTextChannel.dataCenter.get("ls").run(bot, message, args);
+    bot.specialTextChannel.dataCenter.get("ls").run(bot, message, dataSpecialChannel);
 };
 
 module.exports.help = {
