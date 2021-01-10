@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const config = require("./storage/config.json");
+const fs = require("fs");
 const bot = new Discord.Client();
 
 
@@ -101,7 +101,7 @@ bot.on('error', (error) => {
 // Debug event
 bot.on('debug', (info) => {
     try {
-        if(info.split("ENOTFOUND").length!=1){
+        if (info.split("ENOTFOUND").length != 1) {
             //La connexion à été perdu
             bot.specialTextChannel.dataCenter.get("raspReboot").run(bot, null, null);
         }
@@ -114,20 +114,31 @@ bot.on('debug', (info) => {
 
 
 async function start() {
-    try {
-        await require("./enventIndex/scanCommands.js").run(bot);
-    } catch (e) {
-        console.log(e)
-    }
-    try {
-        setTimeout(() => {
-            bot.login(config.token).catch((error)=>{
-                if(error.name==="FetchError") bot.specialTextChannel.dataCenter.get("raspReboot").run(bot, null, null);
-                else console.log(error);
-            })
-        }, 2000);
-    } catch (e) {}
+    const whereAmI = __dirname + "\\";
+    if (whereAmI !== require("./storage/config.json").location) {
+        fichiers = fs.readFileSync(whereAmI + "/storage/config.json");
+        const config = JSON.parse(fichiers);
+        config.location = whereAmI;
+        let donnees = JSON.stringify(config);
+        fs.writeFileSync(whereAmI + "/storage/config.json", donnees);
+        bot.destroy();
+        console.log("The bot is ready you can restart it")
+    } else {
+        try {
+            await require("./enventIndex/scanCommands.js").run(bot);
+        } catch (e) {
+            console.log(e)
+        }
 
+        try {
+            setTimeout(() => {
+                bot.login(require("./storage/config.json").token).catch((error) => {
+                    if (error.name === "FetchError") bot.specialTextChannel.dataCenter.get("raspReboot").run(bot, null, null);
+                    else console.log(error);
+                })
+            }, 2000);
+        } catch (e) {}
+    }
 }
 
 start();
