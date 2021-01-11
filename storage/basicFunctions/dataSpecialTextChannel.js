@@ -21,24 +21,8 @@ module.exports.write = async (idChannel,data)=>{
     }catch(e){
         return;
     }
-
-
-
-    fichiers = fs.readFileSync(path);
-    let donnePath = JSON.parse(fichiers);
-
-    let pwd = ""
-    for (let i = 0; i < donnePath.channelsSpeciaux.length; i++) {
-        if (donnePath.channelsSpeciaux[i].id===idChannel){
-
-            donnePath.channelsSpeciaux[i]=data;
-
-            let donnees = JSON.stringify(donnePath);
-            fs.writeFileSync(path, donnees);
-        }
-    }
 };
 
 module.exports.help = {
-    name: "teamData"
+    name: "dataSpecialTextChannel"
 };
