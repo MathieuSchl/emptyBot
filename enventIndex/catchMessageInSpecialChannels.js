@@ -2,6 +2,8 @@ const config = require("../storage/config.json");
 const fs = require("fs");
 const pathSpecialChannels = config.location + "/storage/data/specialChannelList/";
 const pathSpecialMessages = config.location + "/storage/data/specialMessageList/";
+const pathSpecialGuilds = config.location + "/storage/data/specialGuild/";
+const pathSpecialVoiceChannels = config.location + "/storage/data/specialVoiceChannelList/";
 
 module.exports.run = async (bot) => {
     const allGuilds = bot.guilds.cache.array();
@@ -38,16 +40,52 @@ module.exports.run = async (bot) => {
             return;
         }
         for (let i = 0; i < files.length; i++) {
-            fichiers = fs.readFileSync(config.location + "/storage/data/specialMessageList/" + files[i]);
+            fichiers = fs.readFileSync(pathSpecialMessages + files[i]);
             let dataSpecialMessage = JSON.parse(fichiers);
 
             try {
                 let channel = await bot.channels.fetch(dataSpecialMessage.channel);
-                channel.messages.fetch(dataSpecialMessage.id).catch(()=>{
-                    fs.unlinkSync(config.location + "/storage/data/specialMessageList/" + files[i]);
+                channel.messages.fetch(dataSpecialMessage.id).catch(() => {
+                    fs.unlinkSync(pathSpecialMessages + files[i]);
                 });
             } catch {
-                fs.unlinkSync(config.location + "/storage/data/specialMessageList/" + files[i]);
+                fs.unlinkSync(pathSpecialMessages + files[i]);
+            }
+        }
+    });
+
+    await fs.readdir(pathSpecialGuilds, async function (err, files) {
+        if (err) {
+            console.log(err);
+            return;
+        }
+
+        for (let i = 0; i < files.length; i++) {
+            files[i] = files[i].split(".")[0];
+        }
+        for (let i = 0; i < files.length; i++) {
+            try {
+                await bot.guilds.fetch(files);
+            } catch (e) {
+                fs.unlinkSync(pathSpecialGuilds + files[i] + ".json");
+            }
+        }
+    });
+
+    await fs.readdir(pathSpecialVoiceChannels, async function (err, files) {
+        if (err) {
+            console.log(err);
+            return;
+        }
+
+        for (let i = 0; i < files.length; i++) {
+            files[i] = files[i].split(".")[0];
+        }
+        for (let i = 0; i < files.length; i++) {
+            try {
+                await bot.channels.fetch(files[i]);
+            } catch (e) {
+                fs.unlinkSync(pathSpecialVoiceChannels + files[i] + ".json");
             }
         }
     });

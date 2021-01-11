@@ -11,11 +11,13 @@ module.exports.run = async (bot) => {
 };
 
 module.exports.stop = async (bot) => {
-    let listCron = Array.from(bot.cronTable);
+    try {
+        let listCron = Array.from(bot.cronTable);
 
-    for (let cron of listCron) {
-        bot.cronTab.get(cron[0]).stop();
-    }
+        for (let cron of listCron) {
+            bot.cronTab.get(cron[0]).stop();
+        }
+    } catch {}
 };
 
 

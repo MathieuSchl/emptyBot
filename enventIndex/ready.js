@@ -1,7 +1,8 @@
 const config = require("../storage/config.json");
-const fs = require("fs");
-const path = config.location + "storage/soundFunctions/data/";
 
+async function wait(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+};
 
 module.exports.run = async (bot) => {
     console.log(" ");
@@ -18,8 +19,18 @@ module.exports.run = async (bot) => {
 
         bot.specialTextChannel["console"].get("reloadConsole").run(bot);
     } catch (e) {
-        console.log(e);
-        //bot.specialTextChannel.dataCenter.get("reboot").run(bot, message, args);
+        const disk = config.location.split("")[0];
+        if (["C", "D", "E"].includes(disk)) {
+            console.log("Error in ready.js")
+        } else {
+            await wait(10000);
+            require("./cronTab.js").stop(bot);
+            bot.destroy();
+            await wait(5000);
+            require('child_process').exec(`node ${config.location}/index.js`, function (msg) {
+                console.log(msg)
+            });
+        }
     }
 };
 

@@ -1,3 +1,2 @@
 Add an init command
-In the 'catchMessageInSpecialChannels' verify if guild and voiceChannel exist
 Rename teamData Function
