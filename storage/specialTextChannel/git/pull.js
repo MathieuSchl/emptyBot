@@ -2,7 +2,7 @@ const {
     exec
 } = require('child_process');
 const config = require('../../config.json');
-const idGitChannel = config.idPullChannel;
+const idGitChannel = config.idGitChannel;
 
 
 async function pull(bot, GitChannel, terminalChannel) {
@@ -45,11 +45,13 @@ async function pull(bot, GitChannel, terminalChannel) {
 
 module.exports.run = async (bot, message, dataSpecialChannel) => {
     message.delete();
+    if(idGitChannel==null) return;
     const GitChannel = await bot.channels.fetch(idGitChannel);
     pull(bot, GitChannel, message.channel);
 };
 
 module.exports.ready = async (bot) => {
+    if(idGitChannel==null) return;
     const GitChannel = await bot.channels.fetch(idGitChannel);
     pull(bot, GitChannel, null);
 };
