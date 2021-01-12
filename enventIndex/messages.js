@@ -7,7 +7,7 @@ module.exports.run = async (bot,message)=>{
         return;
     }
     if(message.author.id===bot.user.id) return;
-    if (!await bot.enventIndex.get("testIfSpecialChannel").run(bot,message)) return;
+    if (await bot.enventIndex.get("testIfSpecialChannel").run(bot,message)) return;
 
     var prefix = config.prefix;
     var messageArray = message.content.split(" ");
