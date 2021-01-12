@@ -15,13 +15,14 @@ module.exports.run = async (bot) => {
         bot.enventIndex.get("cronTab").run(bot);
         bot.enventIndex.get("catchMessageInSpecialChannels").run(bot);
 
-        bot.specialTextChannel.dataCenter.get("pull").ready(bot);
+        bot.specialTextChannel.git.get("pull").ready(bot);
 
         bot.specialTextChannel["console"].get("reloadConsole").run(bot);
     } catch (e) {
         const disk = config.location.split("")[0];
         if (["C", "D", "E"].includes(disk)) {
             console.log("Error in ready.js")
+            console.log(e)
         } else {
             await wait(10000);
             require("./cronTab.js").stop(bot);
