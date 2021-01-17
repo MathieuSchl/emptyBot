@@ -18,20 +18,20 @@ async function dlAll(bot, message, pwd, dataSpecialChannel) {
         await bot.basicFunctions.get("wait").run(500);
         if (trueFile.length !== 0) {
             let mess = "Tous les fichiers de ce dossier ont été téléchargé";
-            let fileToSend = [];
+            let filesToSend = [];
             for (let index = 0; index < trueFile.length; index++) {
                 const element = trueFile[index];
-                fileToSend.push(element);
-                if (fileToSend.length >= 10) {
+                filesToSend.push(element);
+                if (filesToSend.length >= 10) {
                     message.channel.send(mess, {
-                        files: fileToSend
+                        files: filesToSend
                     })
                     mess = "";
-                    fileToSend = [];
+                    filesToSend = [];
                 }
             }
             message.channel.send(mess, {
-                files: fileToSend
+                files: filesToSend
             })
 
             /*
