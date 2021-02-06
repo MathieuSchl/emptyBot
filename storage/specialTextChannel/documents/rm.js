@@ -5,12 +5,10 @@ const pathToAdd = config.location + "storage/data/documentsChannel/"
 
 function roleVerifAuthorisation(bot, user, guild, dataSpecialChannel) {
     let userRoles = guild.member(user)["_roles"];
-    for (let roleList of dataSpecialChannel["data"]["textChannelAdmin"]) {
-        for (var i = 0; i < roleList.length; i++) {
-            for (var userRole = 0; userRole < userRoles.length; userRole++) {
-                if (roleList === userRoles[userRole]) {
-                    return true;
-                }
+    for (let role of dataSpecialChannel["data"]["textChannelAdmin"]) {
+        for (var userRole = 0; userRole < userRoles.length; userRole++) {
+            if (role === userRoles[userRole]) {
+                return true;
             }
         }
         return false;
