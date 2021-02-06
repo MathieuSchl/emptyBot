@@ -48,6 +48,10 @@ module.exports.run = async (bot, channel, dataSpecialChannel) => {
     }
 }
 
+module.exports.getEmbed = async (dataSpecialChannel) => {
+    return await createEmbed(dataSpecialChannel.data);
+}
+
 module.exports.help = {
     name: "reload"
 };
