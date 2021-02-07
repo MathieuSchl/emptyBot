@@ -54,7 +54,7 @@ module.exports.run = async (bot, message, dataSpecialChannel) => {
 
     if (files.length === 1) {
         let file = files[0].split("/")[files[0].split("/").length - 1]
-        messToSend = messToSend + "Le fichier \"" + pwd + file + "\" à été téléchargé";
+        messToSend = messToSend + "Le fichier \"" + file + "\" à été téléchargé";
     } else {
         messToSend = messToSend + "Les fichiers ";
         for (var i = 0; i < files.length; i++) {
