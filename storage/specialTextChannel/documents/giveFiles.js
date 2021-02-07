@@ -11,7 +11,6 @@ function roleVerifAuthorisation(bot, user, guild, dataSpecialChannel) {
                 return true;
             }
         }
-        return false;
     }
     return false;
 }
