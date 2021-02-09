@@ -1,3 +1,2 @@
 Write a documentation
-Set start cron table in the cron luncher
 Send a message in the console channel when an error arrive

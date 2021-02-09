@@ -6,7 +6,9 @@ module.exports.run = async (bot) => {
     if (listCron.length !== 0) bot["cronTab"] = new Discord.Collection();
 
     for (let cron of listCron) {
-        cron[1].run(bot);
+        const res = await cron[1].run(bot);
+        bot.cronTab.set(res.name, res.job);
+        bot.cronTab.get(res.name).start();
     }
 };
 
