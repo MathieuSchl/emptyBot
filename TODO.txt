@@ -1,2 +1,3 @@
 Write a documentation
-Do a file channel
+Set start cron table in the cron luncher
+Send a message in the console channel when an error arrive
