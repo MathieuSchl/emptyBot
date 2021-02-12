@@ -65,7 +65,7 @@ module.exports.run = async (bot) => {
         }
         for (let i = 0; i < files.length; i++) {
             try {
-                await bot.guilds.fetch(files);
+                await bot.guilds.fetch(files[i]);
             } catch (e) {
                 fs.unlinkSync(pathSpecialGuilds + files[i] + ".json");
             }
