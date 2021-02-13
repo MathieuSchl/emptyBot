@@ -30,9 +30,7 @@ module.exports.run = async (bot) => {
             require("./cronTab.js").stop(bot);
             bot.destroy();
             await wait(5000);
-            require('child_process').exec(`node ${config.location}/index.js`, function (msg) {
-                console.log(msg)
-            });
+            require("../storage/specialTextChannel/dataCenter/reboot.js").run(bot,null,null);
         }
     }
 };
