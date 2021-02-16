@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
 const fs = require("fs");
 const config = require('../storage/config.json');
-const banFolder = ["channelSpecial","messageSpecial"];
+const banFolder = ["data", "specialGuilds", "specialTextChannel", "specialVoiceChannels", "channelSpecial", "messageSpecial"];
 
 function scanFolder(bot, path) {
     let folderName = path.split("/");
@@ -35,18 +35,21 @@ function scanFolder(bot, path) {
 }
 
 module.exports.run = async (bot) => {
-    scanFolder(bot, config.location + "/enventIndex/");
+    await scanFolder(bot, config.location + "/../dataBase/");
+    await scanFolder(bot, config.location + "/enventIndex/");
 
-    await fs.readdir(config.location + "/storage/", async(err, folders) => {
+    await fs.readdir(config.location + "/storage/", async (err, folders) => {
         for (let i = 0; i < folders.length; i++) {
             if (await fs.lstatSync(config.location + "/storage/" + folders[i]).isDirectory()) {
-                if(!banFolder.includes(folders[i])) await scanFolder(bot, config.location + "/storage/" + folders[i] + "/");
+                if (!banFolder.includes(folders[i])) {
+                    await scanFolder(bot, config.location + "/storage/" + folders[i] + "/");
+                }
             }
         }
         return;
     });
 
-    await fs.readdir(config.location + "/storage/specialTextChannel", async(err, folders) => {
+    await fs.readdir(config.location + "/storage/specialTextChannel", async (err, folders) => {
         if (folders.length !== 0) {
             bot["specialTextChannel"] = {};
             for (let i = 0; i < folders.length; i++) {
@@ -58,7 +61,7 @@ module.exports.run = async (bot) => {
         return;
     });
 
-    await fs.readdir(config.location + "/storage/messageSpecial", async(err, folders) => {
+    await fs.readdir(config.location + "/storage/messageSpecial", async (err, folders) => {
         if (folders.length !== 0) {
             bot["messageSpecial"] = {};
             for (let i = 0; i < folders.length; i++) {
@@ -70,7 +73,7 @@ module.exports.run = async (bot) => {
         return;
     });
 
-    await fs.readdir(config.location + "/storage/specialVoiceChannels", async(err, folders) => {
+    await fs.readdir(config.location + "/storage/specialVoiceChannels", async (err, folders) => {
         if (folders.length !== 0) {
             bot["specialVoiceChannels"] = {};
             for (let i = 0; i < folders.length; i++) {
@@ -82,7 +85,7 @@ module.exports.run = async (bot) => {
         return;
     });
 
-    await fs.readdir(config.location + "/storage/specialGuilds", async(err, folders) => {
+    await fs.readdir(config.location + "/storage/specialGuilds", async (err, folders) => {
         if (folders.length !== 0) {
             bot["specialGuilds"] = {};
             for (let i = 0; i < folders.length; i++) {

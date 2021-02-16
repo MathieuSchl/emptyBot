@@ -17,7 +17,7 @@ module.exports.run = async (bot) => {
 
         bot.specialTextChannel.git.get("pull").ready(bot);
 
-        bot.specialTextChannel["console"].get("reloadConsole").run(bot);8
+        bot.specialTextChannel["console"].get("reloadConsole").run(bot);
     } catch (e) {
         const disk = config.location.split("")[0];
         if (["C", "D", "E"].includes(disk)) {
