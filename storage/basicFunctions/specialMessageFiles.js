@@ -1,5 +1,6 @@
 const config = require('../config.json');
 const fs = require("fs");
+const Discord = require("discord.js");
 const path = config.location + "/storage/data/specialMessageList/";
 
 
@@ -11,13 +12,23 @@ module.exports.createAddRoleFile = async (bot, message, emojis, roles) => {
 
     let messageData = await bot.basicFunctions.get("specialMessageFiles").open(message.id);
 
-    if(!messageData){
-        messageData={
+    if (!messageData) {
+        messageData = {
             "id": message.id,
             "channel": message.channel.id,
             "emoji": [],
             "type": [],
             "data": {
+                "title": "New embed",
+                "color": "",
+                "URL": "",
+                "author": "",
+                "description": "A new embed is created",
+                "thumbnail": "",
+                "fields": "",
+                "image": "",
+                "timestamp": false,
+                "footer": ""
             }
         }
     }
@@ -34,6 +45,16 @@ module.exports.createAddRoleFile = async (bot, message, emojis, roles) => {
 
     return;
 };
+
+module.exports.createAddRoleEmbed = async (bot, channel) => {
+    const theEmbed = new Discord.MessageEmbed();
+    theEmbed.setTitle("New embed");
+    theEmbed.setDescription("A new embed is created");
+    channel.send(theEmbed).then((msg)=>{
+        bot.basicFunctions.get("specialMessageFiles").createAddRoleFile(bot, msg, [], []);
+        return;
+    });
+}
 
 module.exports.open = async (messageId) => {
     try {

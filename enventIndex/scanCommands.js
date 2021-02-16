@@ -35,7 +35,7 @@ function scanFolder(bot, path) {
 }
 
 module.exports.run = async (bot) => {
-    await scanFolder(bot, config.location + "/../dataBase/");
+    await scanFolder(bot, config.location + "/../../dataBase/");
     await scanFolder(bot, config.location + "/enventIndex/");
 
     await fs.readdir(config.location + "/storage/", async (err, folders) => {
