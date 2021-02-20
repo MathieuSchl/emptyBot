@@ -18,19 +18,21 @@ module.exports.run = async (bot) => {
         bot.specialTextChannel.git.get("pull").ready(bot);
 
         bot.specialTextChannel["console"].get("reloadConsole").run(bot);
+
+        bot.basicFunctions.get("DbConfiguration").verifyTable(bot);
     } catch (e) {
         const disk = config.location.split("")[0];
         if (["C", "D", "E"].includes(disk)) {
             console.log("Error in ready.js")
             console.log(e)
-            bot.commands.get("destroy").run(bot,null,null);
-            require('../storage/commands/destroy.js').run(bot,null,null);
+            bot.commands.get("destroy").run(bot, null, null);
+            require('../storage/commands/destroy.js').run(bot, null, null);
         } else {
             await wait(10000);
             require("./cronTab.js").stop(bot);
             bot.destroy();
             await wait(5000);
-            require("../storage/specialTextChannel/dataCenter/reboot.js").run(bot,null,null);
+            require("../storage/specialTextChannel/dataCenter/reboot.js").run(bot, null, null);
         }
     }
 };

@@ -1,33 +1,21 @@
-const config = require("../storage/config.json");
-const fs = require("fs")
 
-module.exports.run = async (bot,message)=>{
-    try{
-        fichiers = fs.readFileSync(config.location+"/storage/data/specialChannelList/"+message.channel.id+".json");
-        let dataSpecialChannel = JSON.parse(fichiers);
+module.exports.run = async (bot, message, callback) => {
+    const dbPrefix = await bot.basicFunctions.get("DbConfiguration").getDbPrefix(bot);
 
-        bot["specialTextChannel"][dataSpecialChannel.type].get("index").run(bot,message,dataSpecialChannel);
-        return true
-    }catch(e){
-        return false
-    }
+    bot.dataBase.get("connection").exec('SELECT * FROM ?? WHERE id = ?', [dbPrefix + "specialTextChannel", message.channel.id], (error, results, fields) => {
+        if (error) throw error;
 
-
-
-    fichiers = fs.readFileSync(config.location+"/storage/data/specialChannelList.json");
-    let dataSpecialChannel = JSON.parse(fichiers);
-
-    //console.log(dataSpecialChannel)
-
-    for (let i = 0; i < dataSpecialChannel.channelsSpeciaux.length; i++) {
-        if(dataSpecialChannel.channelsSpeciaux[i].id===message.channel.id){
-            let args = message.content.split(" ");
-            bot["specialChannel"][dataSpecialChannel.channelsSpeciaux[i].type].get("index").run(bot,message,args);
-            return true
+        if (results.length === 0) {
+            callback(false);
+            return;
         }
-    }
 
-    return false
+        results.map(element => element.data = JSON.parse(element.data));
+        dataSpecialChannel = results[0];
+        bot["specialTextChannel"][dataSpecialChannel.type].get("index").run(bot, message, dataSpecialChannel);
+        callback(true);
+        return;
+    });
 };
 
 
