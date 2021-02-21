@@ -11,10 +11,3 @@ Files:
 --dataSpecialTextChannel
 --specialMessageFiles
 
-
-
-
-
-
-
-CREATE TABLE `s45_bots`.`K2SO_specialTextChannel` ( `id` VARCHAR(18) NOT NULL , `type` VARCHAR(25) NOT NULL , `data` VARCHAR(1000) NULL DEFAULT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;

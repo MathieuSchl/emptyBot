@@ -16,23 +16,27 @@ module.exports.run = async (bot) => {
         }
     }
 
-    await fs.readdir(pathSpecialChannels, async function (err, files) {
-        if (err) {
-            console.log(err);
-            return;
-        }
-        for (let i = 0; i < files.length; i++) {
-            files[i] = files[i].split(".")[0];
-        }
-        for (let i = 0; i < files.length; i++) {
-            try {
-                let channel = await bot.channels.fetch(files[i]);
-                channel.messages.fetch();
-            } catch (e) {
-                fs.unlinkSync(pathSpecialChannels + files[i] + ".json");
+    const dbPrefix = await bot.basicFunctions.get("DbConfiguration").getDbPrefix(bot);
+    await bot.basicFunctions.get("wait").run(3000);
+
+    bot.dataBase.get("connection").exec('SELECT * FROM ??', [dbPrefix + "specialTextChannel"], async (error, results, fields) => {
+        if (error) throw error;
+
+        for (let index = 0; index < results.length; index++) {
+            const element = results[index];
+
+            try{
+                await bot.channels.fetch(element.id);
+            }catch{
+                bot.basicFunctions.get("dataSpecialTextChannel").delete(bot, element.id, (error, results, fields)=>{});
             }
+            await bot.basicFunctions.get("wait").run(1000);
         }
+
+        return;
     });
+
+    await bot.basicFunctions.get("wait").run(10000);
 
     await fs.readdir(pathSpecialMessages, async function (err, files) {
         if (err) {

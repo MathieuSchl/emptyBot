@@ -14,10 +14,9 @@ async function getEveryoneId(bot, guildId) {
 module.exports.run = async (bot, message, dataSpecialChannel) => {
     if (!config.idBotAdmins.includes(message.author.id)) return;
 
-    if (config.idConsoleChannel != null || config.idPullChannel != null) {
-        message.delete();
-        return;
-    };
+    message.delete();
+
+    if (config.idConsoleChannel != null) return;
 
     //Create category
     const guild = message.guild;
@@ -38,10 +37,6 @@ module.exports.run = async (bot, message, dataSpecialChannel) => {
         "parent": category.id
     }
 
-    const gitChannel = await guild.channels.create("git", options).then((channel) => {
-        return channel;
-    })
-
     const dataCenterChannel = await guild.channels.create("dataCenter", options).then((channel) => {
         return channel;
     })
@@ -50,14 +45,6 @@ module.exports.run = async (bot, message, dataSpecialChannel) => {
         return channel;
     })
 
-    //Create all data Files
-    const gitChannelData = {
-        "id": gitChannel.id,
-        "type": "git"
-    };
-    donnees = JSON.stringify(gitChannelData);
-    fs.writeFileSync(config.location + "/storage/data/specialChannelList/" + gitChannel.id + ".json", donnees);
-
     const dataCenterChannelData = {
         "id": dataCenterChannel.id,
         "type": "dataCenter",
@@ -65,33 +52,42 @@ module.exports.run = async (bot, message, dataSpecialChannel) => {
             "pwd": "/"
         }
     };
-    donnees = JSON.stringify(dataCenterChannelData);
-    fs.writeFileSync(config.location + "/storage/data/specialChannelList/" + dataCenterChannel.id + ".json", donnees);
-    await bot.basicFunctions.get("wait").run(1000);
-    dataCenterChannel.send("startChannel").then((msg)=>{
-        bot.specialTextChannel.dataCenter.get("ls").run(bot, msg, dataCenterChannelData);
-    })
+
+    bot.basicFunctions.get("dataSpecialTextChannel").insert(bot, dataCenterChannelData, async (error, results, fields) => {
+        if (error){
+            console.log(fields);
+            throw error;
+        }
+
+        await bot.basicFunctions.get("wait").run(1000);
+        dataCenterChannel.send("Channel initialization").then((msg) => {
+            bot.specialTextChannel.dataCenter.get("ls").run(bot, msg, dataCenterChannelData);
+        })
 
 
-    const consoleChannelData = {
-        "id": consoleChannel.id,
-        "type": "console"
-    };
-    donnees = JSON.stringify(consoleChannelData);
-    fs.writeFileSync(config.location + "/storage/data/specialChannelList/" + consoleChannel.id + ".json", donnees);
+        const consoleChannelData = {
+            "id": consoleChannel.id,
+            "type": "console",
+            "data":{}
+        };
 
+        bot.basicFunctions.get("dataSpecialTextChannel").insert(bot, consoleChannelData, async (error, results, fields) => {
+            if (error) throw error;
 
+            //Update config
+            config.idConsoleChannel = consoleChannel.id;
 
-    //Update config
-    config.idConsoleChannel=consoleChannel.id;
-    config.idGitChannel=gitChannel.id;
+            donnees = JSON.stringify(config);
+            fs.writeFileSync(config.location + "/storage/config.json", donnees);
 
-    donnees = JSON.stringify(config);
-    fs.writeFileSync(config.location + "/storage/config.json", donnees);
-
-    //Reboot
-    await bot.basicFunctions.get("wait").run(1000);
-    bot.specialTextChannel.dataCenter.get("reboot").run(bot, message, dataSpecialChannel);
+            //Reboot
+            console.log("Please restart the bot");
+            await bot.basicFunctions.get("wait").run(1000);
+            bot.specialTextChannel["console"].get("reloadConsole").run(bot);
+            await bot.basicFunctions.get("wait").run(3000);
+            bot.commands.get("destroy").run(bot, message, dataSpecialChannel)
+        });
+    });
 };
 
 

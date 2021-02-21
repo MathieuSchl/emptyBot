@@ -30,7 +30,9 @@ module.exports.run = async (bot, message, dataSpecialChannel) => {
                 }
                 dataSpecialChannel["data"]["textChannelAdmin"].push(numIdRole[1].id);
 
-                bot.basicFunctions.get("dataSpecialTextChannel").write(dataSpecialChannel.id,dataSpecialChannel);
+                bot.basicFunctions.get("dataSpecialTextChannel").update(bot, dataSpecialChannel, (error, results, fields) => {
+                    if (error) throw error;
+                });
                 message.channel.send("Ajout de "+args[1]+" terminé").then(msg => {msg.delete({ timeout: 5000 })});
             }
         }

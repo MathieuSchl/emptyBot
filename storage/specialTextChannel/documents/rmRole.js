@@ -39,7 +39,9 @@ module.exports.run = async (bot, message, dataSpecialChannel) => {
                             })
                         });
                         dataSpecialChannel["data"]["textChannelAdmin"].splice(numiterRole);
-                        bot.basicFunctions.get("dataSpecialTextChannel").write(dataSpecialChannel.id,dataSpecialChannel);
+                        bot.basicFunctions.get("dataSpecialTextChannel").update(bot, dataSpecialChannel, (error, results, fields) => {
+                            if (error) throw error;
+                        });
                     }
                     numiterRole += 1;
                 }
