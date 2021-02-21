@@ -1,6 +1,5 @@
 const config = require("../storage/config.json");
 const fs = require("fs");
-const pathSpecialChannels = config.location + "/storage/data/specialChannelList/";
 const pathSpecialMessages = config.location + "/storage/data/specialMessageList/";
 const pathSpecialGuilds = config.location + "/storage/data/specialGuild/";
 const pathSpecialVoiceChannels = config.location + "/storage/data/specialVoiceChannelList/";
@@ -32,7 +31,6 @@ module.exports.run = async (bot) => {
             }
             await bot.basicFunctions.get("wait").run(1000);
         }
-
         return;
     });
 
