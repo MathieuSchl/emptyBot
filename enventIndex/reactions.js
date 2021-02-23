@@ -1,7 +1,3 @@
-const config = require("../storage/config.json");
-const fs = require("fs")
-
-
 async function check(bot, reaction, user) {
     try {
         if (user.id === bot.user.id) return true;
@@ -20,41 +16,42 @@ async function check(bot, reaction, user) {
                 return false;
             }
         }
-
         return true;
     } catch (e) {
         return false;
     }
 }
 
-async function getMessageData(bot, reaction, user) {
-    try {
-        fichiers = fs.readFileSync(config.location + "/storage/data/specialMessageList/" + reaction.message.id + ".json");
-        let dataSpecialMessage = JSON.parse(fichiers);
-        return dataSpecialMessage;
-    } catch (e) {
-        return false;
-    }
+async function getMessageData(bot, reaction, callback) {
+    bot.basicFunctions.get("dbDataSpecialMessage").select(bot, reaction.id, (error, results, fields) => {
+        if (error) throw error;
+
+        const dataSpecialMessage = results[0];
+        callback(dataSpecialMessage);
+        return;
+    })
 }
 
 module.exports.addReaction = async (bot, reaction, user) => {
     if (await check(bot, reaction, user)) return;
-    const messageData = await bot.basicFunctions.get("specialMessageFiles").open(reaction.message.id);
-    if (!messageData) return;
+    getMessageData(bot, reaction, (messageData) => {
+        if (!messageData) return;
 
-    const index = messageData.emoji.indexOf(reaction["_emoji"].name);
-    if (index === -1) return false;
-    bot.messageSpecial[messageData.type[index]].get("index").addReaction(bot, reaction, user, messageData, index);
+        const index = messageData.emoji.indexOf(reaction["_emoji"].name);
+        if (index === -1) return false;
+        bot.messageSpecial[messageData.type[index]].get("index").addReaction(bot, reaction, user, messageData, index);
+    });
 };
 
 module.exports.removeReaction = async (bot, reaction, user) => {
     if (await check(bot, reaction, user)) return;
-    const messageData = await getMessageData(bot, reaction, user);
-    if (!messageData) return;
+    getMessageData(bot, reaction, (messageData) => {
+        if (!messageData) return;
 
-    const index = messageData.emoji.indexOf(reaction["_emoji"].name);
-    if (index === -1) return false;
-    bot.messageSpecial[messageData.type[index]].get("index").removeReaction(bot, reaction, user, messageData, index);
+        const index = messageData.emoji.indexOf(reaction["_emoji"].name);
+        if (index === -1) return false;
+        bot.messageSpecial[messageData.type[index]].get("index").removeReaction(bot, reaction, user, messageData, index);
+    });
 };
 
 

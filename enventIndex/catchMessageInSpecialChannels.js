@@ -27,7 +27,7 @@ module.exports.run = async (bot) => {
             try{
                 await bot.channels.fetch(element.id);
             }catch{
-                bot.basicFunctions.get("dataSpecialTextChannel").delete(bot, element.id, (error, results, fields)=>{});
+                bot.basicFunctions.get("dbDataSpecialTextChannel").delete(bot, element.id, (error, results, fields)=>{});
             }
             await bot.basicFunctions.get("wait").run(1000);
         }

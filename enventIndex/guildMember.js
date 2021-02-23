@@ -1,15 +1,11 @@
-const config = require("../storage/config.json");
-const fs = require("fs")
-
-
 async function getGuildData(bot, guildId, callback) {
-    try {
-        fichiers = fs.readFileSync(config.location + "/storage/data/specialGuild/" + guildId + ".json");
-        let guildData = JSON.parse(fichiers);
-        callback(guildData);
-    } catch (e) {
-        callback(null);
-    }
+    bot.basicFunctions.get("dbDataSpecialGuild").select(bot, guildId.id, (error, results, fields) => {
+        if (error) throw error;
+
+        const dataSpecialGuild = results[0];
+        callback(dataSpecialGuild);
+        return;
+    })
     return;
 }
 

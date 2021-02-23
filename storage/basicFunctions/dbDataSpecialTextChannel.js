@@ -56,5 +56,5 @@ module.exports.delete = async (bot, idChannel, callback) => {
 };
 
 module.exports.help = {
-    name: "dataSpecialTextChannel"
+    name: "dbDataSpecialTextChannel"
 };

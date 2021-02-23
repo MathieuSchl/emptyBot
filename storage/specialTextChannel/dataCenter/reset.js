@@ -3,7 +3,7 @@
 
 module.exports.run = async (bot, message, dataSpecialChannel) => {
     dataSpecialChannel.data.pwd = "/";
-    bot.basicFunctions.get("dataSpecialTextChannel").update(bot, dataSpecialChannel, (error, results, fields) => {
+    bot.basicFunctions.get("dbDataSpecialTextChannel").update(bot, dataSpecialChannel, (error, results, fields) => {
         if (error) throw error;
     });
 

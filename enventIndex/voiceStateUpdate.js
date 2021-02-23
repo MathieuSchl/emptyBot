@@ -1,38 +1,39 @@
-const config = require("../storage/config.json");
-const fs = require("fs")
+async function getVoiceChannelData(bot, oldVoiceChannelId, newVoiceChannelId, callback) {
+    bot.basicFunctions.get("dbDataSpecialVoiceChannel").select(bot, oldVoiceChannelId, (error, results, fields) => {
+        if (error) throw error;
 
+        const oldDatavoiceChannel = results[0];
 
-async function getVoiceChannelData(bot, voiceChannelId) {
-    try {
-        fichiers = fs.readFileSync(config.location + "/storage/data/specialVoiceChannelList/" + voiceChannelId + ".json");
-        let datavoiceChannel = JSON.parse(fichiers);
+        bot.basicFunctions.get("dbDataSpecialVoiceChannel").select(bot, newVoiceChannelId, (error, results, fields) => {
+            if (error) throw error;
 
-        return datavoiceChannel;
-    } catch (e) {
-        return false;
-    }
+            const newDatavoiceChannel = results[0];
+            callback(oldDatavoiceChannel, newDatavoiceChannel);
+            return;
+        })
+        return;
+    })
+    return;
 }
 
 module.exports.run = async (bot, oldState, newState) => {
-    const oldDatavoiceChannel = await getVoiceChannelData(bot, oldState.channelID);
-    const newDatavoiceChannel = await getVoiceChannelData(bot, newState.channelID);
-
-
-    if (oldDatavoiceChannel) {
-        try {
-            bot.specialVoiceChannels[oldDatavoiceChannel.type].get("index").leave(bot, oldState, oldDatavoiceChannel, newState, newDatavoiceChannel);
-        } catch {
-            console.log("The specialVoiceChannels '"+oldDatavoiceChannel.type+"'does not exist");
+    getVoiceChannelData(bot, oldState.channelID, newState.channelID, (oldDatavoiceChannel, newDatavoiceChannel) => {
+        if (oldDatavoiceChannel) {
+            try {
+                bot.specialVoiceChannels[oldDatavoiceChannel.type].get("index").leave(bot, oldState, oldDatavoiceChannel, newState, newDatavoiceChannel);
+            } catch {
+                console.log("The specialVoiceChannels '" + oldDatavoiceChannel.type + "'does not exist");
+            }
         }
-    }
 
-    if (newDatavoiceChannel) {
-        try {
-            bot.specialVoiceChannels[newDatavoiceChannel.type].get("index").join(bot, oldState, oldDatavoiceChannel, newState, newDatavoiceChannel);
-        } catch {
-            console.log("The specialVoiceChannels '"+newDatavoiceChannel.type+"'does not exist");
+        if (newDatavoiceChannel) {
+            try {
+                bot.specialVoiceChannels[newDatavoiceChannel.type].get("index").join(bot, oldState, oldDatavoiceChannel, newState, newDatavoiceChannel);
+            } catch {
+                console.log("The specialVoiceChannels '" + newDatavoiceChannel.type + "'does not exist");
+            }
         }
-    }
+    });
 };
 
 

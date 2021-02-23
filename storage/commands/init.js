@@ -53,7 +53,7 @@ module.exports.run = async (bot, message, dataSpecialChannel) => {
         }
     };
 
-    bot.basicFunctions.get("dataSpecialTextChannel").insert(bot, dataCenterChannelData, async (error, results, fields) => {
+    bot.basicFunctions.get("dbDataSpecialTextChannel").insert(bot, dataCenterChannelData, async (error, results, fields) => {
         if (error){
             console.log(fields);
             throw error;
@@ -71,7 +71,7 @@ module.exports.run = async (bot, message, dataSpecialChannel) => {
             "data":{}
         };
 
-        bot.basicFunctions.get("dataSpecialTextChannel").insert(bot, consoleChannelData, async (error, results, fields) => {
+        bot.basicFunctions.get("dbDataSpecialTextChannel").insert(bot, consoleChannelData, async (error, results, fields) => {
             if (error) throw error;
 
             //Update config
