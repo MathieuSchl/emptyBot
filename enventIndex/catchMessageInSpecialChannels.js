@@ -43,8 +43,8 @@ module.exports.run = async (bot) => {
 
             try {
                 let channel = await bot.channels.fetch(dataSpecialMessage.channel);
-                channel.messages.fetch(dataSpecialMessage.id).catch(() => {
-                    fs.unlinkSync(pathSpecialMessages + files[i]);
+                channel.messages.fetch(dataSpecialMessage.id).catch((e) => {
+                    console.log(e);
                 });
             } catch {
                 bot.basicFunctions.get("dbDataSpecialMessage").delete(bot, dataSpecialMessage.id, (error, results, fields)=>{});
