@@ -23,7 +23,7 @@ async function check(bot, reaction, user) {
 }
 
 async function getMessageData(bot, reaction, callback) {
-    bot.basicFunctions.get("dbDataSpecialMessage").select(bot, reaction.id, (error, results, fields) => {
+    bot.basicFunctions.get("dbDataSpecialMessage").select(bot, reaction.message.id, (error, results, fields) => {
         if (error) throw error;
 
         const dataSpecialMessage = results[0];
@@ -37,9 +37,14 @@ module.exports.addReaction = async (bot, reaction, user) => {
     getMessageData(bot, reaction, (messageData) => {
         if (!messageData) return;
 
-        const index = messageData.emoji.indexOf(reaction["_emoji"].name);
-        if (index === -1) return false;
-        bot.messageSpecial[messageData.type[index]].get("index").addReaction(bot, reaction, user, messageData, index);
+        try{
+            const index = messageData.emoji.indexOf(reaction["_emoji"].name);
+            if (index === -1) return false;
+            bot.messageSpecial[messageData.type[index]].get("index").addReaction(bot, reaction, user, messageData, index);
+        }catch(e){
+            console.log("Failed to run the \"addReaction\" function");
+            console.log(e);
+        }
     });
 };
 
@@ -48,9 +53,14 @@ module.exports.removeReaction = async (bot, reaction, user) => {
     getMessageData(bot, reaction, (messageData) => {
         if (!messageData) return;
 
-        const index = messageData.emoji.indexOf(reaction["_emoji"].name);
-        if (index === -1) return false;
-        bot.messageSpecial[messageData.type[index]].get("index").removeReaction(bot, reaction, user, messageData, index);
+        try{
+            const index = messageData.emoji.indexOf(reaction["_emoji"].name);
+            if (index === -1) return false;
+            bot.messageSpecial[messageData.type[index]].get("index").removeReaction(bot, reaction, user, messageData, index);
+        }catch(e){
+            console.log("Failed to run the \"removeReaction\" function");
+            console.log(e);
+        }
     });
 };
 
