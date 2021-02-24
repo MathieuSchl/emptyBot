@@ -29,21 +29,17 @@ module.exports.run = async (bot) => {
             }catch{
                 bot.basicFunctions.get("dbDataSpecialTextChannel").delete(bot, element.id, (error, results, fields)=>{});
             }
-            await bot.basicFunctions.get("wait").run(1000);
         }
         return;
     });
 
-    await bot.basicFunctions.get("wait").run(10000);
+    await bot.basicFunctions.get("wait").run(3000);
 
-    await fs.readdir(pathSpecialMessages, async function (err, files) {
-        if (err) {
-            console.log(err);
-            return;
-        }
-        for (let i = 0; i < files.length; i++) {
-            fichiers = fs.readFileSync(pathSpecialMessages + files[i]);
-            let dataSpecialMessage = JSON.parse(fichiers);
+    bot.dataBase.get("connection").exec('SELECT * FROM ??', [dbPrefix + "specialMessage"], async (error, results, fields) => {
+        if (error) throw error;
+
+        for (let i = 0; i < results.length; i++) {
+            let dataSpecialMessage = results[i];
 
             try {
                 let channel = await bot.channels.fetch(dataSpecialMessage.channel);
@@ -51,46 +47,48 @@ module.exports.run = async (bot) => {
                     fs.unlinkSync(pathSpecialMessages + files[i]);
                 });
             } catch {
-                fs.unlinkSync(pathSpecialMessages + files[i]);
+                bot.basicFunctions.get("dbDataSpecialMessage").delete(bot, dataSpecialMessage.id, (error, results, fields)=>{});
             }
         }
+        return;
     });
 
-    await fs.readdir(pathSpecialGuilds, async function (err, files) {
-        if (err) {
-            console.log(err);
-            return;
-        }
 
-        for (let i = 0; i < files.length; i++) {
-            files[i] = files[i].split(".")[0];
-        }
-        for (let i = 0; i < files.length; i++) {
+
+    await bot.basicFunctions.get("wait").run(3000);
+
+    bot.dataBase.get("connection").exec('SELECT * FROM ??', [dbPrefix + "specialGuild"], async (error, results, fields) => {
+        if (error) throw error;
+
+        for (let i = 0; i < results.length; i++) {
             try {
-                await bot.guilds.fetch(files[i]);
+                await bot.guilds.fetch(results[i].id);
             } catch (e) {
-                fs.unlinkSync(pathSpecialGuilds + files[i] + ".json");
+                bot.basicFunctions.get("dbDataSpecialGuild").delete(bot, results[i].id, (error, results, fields)=>{});
             }
         }
+        return;
     });
 
-    await fs.readdir(pathSpecialVoiceChannels, async function (err, files) {
-        if (err) {
-            console.log(err);
-            return;
-        }
 
-        for (let i = 0; i < files.length; i++) {
-            files[i] = files[i].split(".")[0];
-        }
-        for (let i = 0; i < files.length; i++) {
+    
+    await bot.basicFunctions.get("wait").run(3000);
+
+    bot.dataBase.get("connection").exec('SELECT * FROM ??', [dbPrefix + "specialVoiceChannel"], async (error, results, fields) => {
+        if (error) throw error;
+
+        for (let i = 0; i < results.length; i++) {
+            let dataSpecialVoiceChannel = results[i];
+
             try {
-                await bot.channels.fetch(files[i]);
-            } catch (e) {
-                fs.unlinkSync(pathSpecialVoiceChannels + files[i] + ".json");
+                await bot.channels.fetch(dataSpecialVoiceChannel.id);
+            } catch {
+                bot.basicFunctions.get("dbDataSpecialVoiceChannel").delete(bot, dataSpecialVoiceChannel.id, (error, results, fields)=>{});
             }
         }
+        return;
     });
+
 
     const channelsToFetch = require("../storage/data/generalData.json").channelsToFetch;
     channelsToFetch.forEach(async (element) => {
