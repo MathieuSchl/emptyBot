@@ -1,5 +1,5 @@
 async function getGuildData(bot, guildId, callback) {
-    bot.basicFunctions.get("dbDataSpecialGuild").select(bot, guildId.id, (error, results, fields) => {
+    bot.basicFunctions.get("dbDataSpecialGuild").select(bot, guildId, (error, results, fields) => {
         if (error) throw error;
 
         const dataSpecialGuild = results[0];

@@ -4,6 +4,12 @@
 module.exports.select = async (bot, idGuild, callback) => {
     const dbPrefix = await bot.basicFunctions.get("DbConfiguration").getDbPrefix(bot);
     bot.dataBase.get("connection").exec('SELECT * FROM ?? WHERE id = ?', [dbPrefix + "specialGuild", idGuild], (error, results, fields) => {
+        for (let index = 0; index < results.length; index++) {
+            results[index].actionAdd=JSON.parse(results[index].actionAdd);
+            results[index].actionRemove=JSON.parse(results[index].actionRemove);
+            results[index].data=JSON.parse(results[index].data);
+        }
+
         callback(error, results, fields);
         return;
     });
