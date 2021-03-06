@@ -1,4 +1,5 @@
 const config = require("../storage/config.json");
+const Discord = require("discord.js");
 
 async function wait(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -20,6 +21,8 @@ module.exports.run = async (bot) => {
         bot.specialTextChannel["console"].get("reloadConsole").run(bot);
 
         bot.basicFunctions.get("DbConfiguration").verifyTable(bot);
+
+        //bot.basicFunctions.get("checkMessageReactions").run(bot);
     } catch (e) {
         const disk = config.location.split("")[0];
         if (["C", "D", "E"].includes(disk)) {
@@ -32,6 +35,8 @@ module.exports.run = async (bot) => {
             require("./cronTab.js").stop(bot);
             bot.destroy();
             await wait(5000);
+            console.log("Error in ready");
+            console.log(e);
             require("../storage/specialTextChannel/dataCenter/reboot.js").run(bot, null, null);
         }
     }

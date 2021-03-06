@@ -103,6 +103,8 @@ bot.on('debug', (info) => {
     try {
         if (info.split("ENOTFOUND").length != 1) {
             //La connexion à été perdu
+            console.log("Error in debug");
+            console.log(info);
             bot.specialTextChannel.dataCenter.get("raspReboot").run(bot, null, null);
         }
     } catch (e) {
