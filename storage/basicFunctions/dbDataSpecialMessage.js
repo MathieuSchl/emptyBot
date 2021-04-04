@@ -1,4 +1,4 @@
-const convertEmoji = require("../convertEmoji.json");
+const convertEmoji = require("../../../../dataBase/convertEmoji.json");
 
 
 function testIfIsEmojis(string) {
