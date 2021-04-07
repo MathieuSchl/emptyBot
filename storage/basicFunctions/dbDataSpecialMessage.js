@@ -8,7 +8,7 @@ function testIfIsEmojis(string) {
 
 module.exports.select = async (bot, idChannel, callback) => {
     const dbPrefix = await bot.basicFunctions.get("DbConfiguration").getDbPrefix(bot);
-    bot.dataBase.get("connection").exec('SELECT * FROM ?? WHERE id = ?', [dbPrefix + "specialMessage", idChannel], (error, results, fields) => {
+    bot.dataBase.get("connection").exec(bot.db, 'SELECT * FROM ?? WHERE id = ?', [dbPrefix + "specialMessage", idChannel], (error, results, fields) => {
 
         for (let index = 0; index < results.length; index++) {
             const element = results[index];
@@ -28,7 +28,7 @@ module.exports.select = async (bot, idChannel, callback) => {
 
 module.exports.update = async (bot, data, callback) => {
     const dbPrefix = await bot.basicFunctions.get("DbConfiguration").getDbPrefix(bot);
-    bot.dataBase.get("connection").exec("UPDATE ?? SET `emoji` = ?, `type` = ?, `data` = ? WHERE `id` = ?", [dbPrefix + "specialMessage", JSON.stringify(data.emoji), JSON.stringify(data.type), JSON.stringify(data.data), data.id], (error, results, fields) => {
+    bot.dataBase.get("connection").exec(bot.db, "UPDATE ?? SET `emoji` = ?, `type` = ?, `data` = ? WHERE `id` = ?", [dbPrefix + "specialMessage", JSON.stringify(data.emoji), JSON.stringify(data.type), JSON.stringify(data.data), data.id], (error, results, fields) => {
         callback(error, results, fields);
         return;
     });
@@ -36,7 +36,7 @@ module.exports.update = async (bot, data, callback) => {
 
 module.exports.insert = async (bot, data, callback) => {
     const dbPrefix = await bot.basicFunctions.get("DbConfiguration").getDbPrefix(bot);
-    bot.dataBase.get("connection").exec("INSERT INTO ?? (`id`, `channel`, `emoji`, `type`, `data`) VALUES (?, ?, ?, ?, ?)", [dbPrefix + "specialMessage", data.id, data.channel, JSON.stringify(data.emoji), JSON.stringify(data.type), JSON.stringify(data.data)], (error, results, fields) => {
+    bot.dataBase.get("connection").exec(bot.db, "INSERT INTO ?? (`id`, `channel`, `emoji`, `type`, `data`) VALUES (?, ?, ?, ?, ?)", [dbPrefix + "specialMessage", data.id, data.channel, JSON.stringify(data.emoji), JSON.stringify(data.type), JSON.stringify(data.data)], (error, results, fields) => {
         callback(error, results, fields);
         return;
     });
@@ -44,7 +44,7 @@ module.exports.insert = async (bot, data, callback) => {
 
 module.exports.delete = async (bot, idChannel, callback) => {
     const dbPrefix = await bot.basicFunctions.get("DbConfiguration").getDbPrefix(bot);
-    bot.dataBase.get("connection").exec("DELETE FROM ?? WHERE `id` = ?", [dbPrefix + "specialMessage", idChannel], (error, results, fields) => {
+    bot.dataBase.get("connection").exec(bot.db, "DELETE FROM ?? WHERE `id` = ?", [dbPrefix + "specialMessage", idChannel], (error, results, fields) => {
         callback(error, results, fields);
         return;
     });

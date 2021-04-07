@@ -8,7 +8,7 @@ function testIfIsEmojis(string) {
 
 module.exports.run = async (bot) => {
     const dbPrefix = await bot.basicFunctions.get("DbConfiguration").getDbPrefix(bot);
-    bot.dataBase.get("connection").exec('SELECT * FROM ??', [dbPrefix + "specialMessage"], async (error, results, fields) => {
+    bot.dataBase.get("connection").exec(bot.db, 'SELECT * FROM ??', [dbPrefix + "specialMessage"], async (error, results, fields) => {
         if (error) throw error;
 
         for (let index = 0; index < results.length; index++) {

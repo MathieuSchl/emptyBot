@@ -18,7 +18,7 @@ module.exports.run = async (bot) => {
     const dbPrefix = await bot.basicFunctions.get("DbConfiguration").getDbPrefix(bot);
     await bot.basicFunctions.get("wait").run(3000);
 
-    bot.dataBase.get("connection").exec('SELECT * FROM ??', [dbPrefix + "specialTextChannel"], async (error, results, fields) => {
+    bot.dataBase.get("connection").exec(bot.db, 'SELECT * FROM ??', [dbPrefix + "specialTextChannel"], async (error, results, fields) => {
         if (error) throw error;
 
         for (let index = 0; index < results.length; index++) {
@@ -35,7 +35,7 @@ module.exports.run = async (bot) => {
 
     await bot.basicFunctions.get("wait").run(3000);
 
-    bot.dataBase.get("connection").exec('SELECT * FROM ??', [dbPrefix + "specialMessage"], async (error, results, fields) => {
+    bot.dataBase.get("connection").exec(bot.db, 'SELECT * FROM ??', [dbPrefix + "specialMessage"], async (error, results, fields) => {
         if (error) throw error;
 
         for (let i = 0; i < results.length; i++) {
@@ -57,7 +57,7 @@ module.exports.run = async (bot) => {
 
     await bot.basicFunctions.get("wait").run(3000);
 
-    bot.dataBase.get("connection").exec('SELECT * FROM ??', [dbPrefix + "specialGuild"], async (error, results, fields) => {
+    bot.dataBase.get("connection").exec(bot.db, 'SELECT * FROM ??', [dbPrefix + "specialGuild"], async (error, results, fields) => {
         if (error) throw error;
 
         for (let i = 0; i < results.length; i++) {
@@ -74,7 +74,7 @@ module.exports.run = async (bot) => {
     
     await bot.basicFunctions.get("wait").run(3000);
 
-    bot.dataBase.get("connection").exec('SELECT * FROM ??', [dbPrefix + "specialVoiceChannel"], async (error, results, fields) => {
+    bot.dataBase.get("connection").exec(bot.db, 'SELECT * FROM ??', [dbPrefix + "specialVoiceChannel"], async (error, results, fields) => {
         if (error) throw error;
 
         for (let i = 0; i < results.length; i++) {
