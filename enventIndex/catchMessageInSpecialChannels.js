@@ -24,10 +24,10 @@ module.exports.run = async (bot) => {
         for (let index = 0; index < results.length; index++) {
             const element = results[index];
 
-            try{
+            try {
                 await bot.channels.fetch(element.id);
-            }catch{
-                bot.basicFunctions.get("dbDataSpecialTextChannel").delete(bot, element.id, (error, results, fields)=>{});
+            } catch {
+                bot.basicFunctions.get("dbDataSpecialTextChannel").delete(bot, element.id, (error, results, fields) => {});
             }
         }
         return;
@@ -44,10 +44,10 @@ module.exports.run = async (bot) => {
             try {
                 let channel = await bot.channels.fetch(dataSpecialMessage.channel);
                 channel.messages.fetch(dataSpecialMessage.id).catch((e) => {
-                    console.log(e);
+                    bot.basicFunctions.get("dbDataSpecialMessage").delete(bot, dataSpecialMessage.id, (error, results, fields) => {});
                 });
             } catch {
-                bot.basicFunctions.get("dbDataSpecialMessage").delete(bot, dataSpecialMessage.id, (error, results, fields)=>{});
+                bot.basicFunctions.get("dbDataSpecialMessage").delete(bot, dataSpecialMessage.id, (error, results, fields) => {});
             }
         }
         return;
@@ -64,14 +64,14 @@ module.exports.run = async (bot) => {
             try {
                 await bot.guilds.fetch(results[i].id);
             } catch (e) {
-                bot.basicFunctions.get("dbDataSpecialGuild").delete(bot, results[i].id, (error, results, fields)=>{});
+                bot.basicFunctions.get("dbDataSpecialGuild").delete(bot, results[i].id, (error, results, fields) => {});
             }
         }
         return;
     });
 
 
-    
+
     await bot.basicFunctions.get("wait").run(3000);
 
     bot.dataBase.get("connection").exec(bot.db, 'SELECT * FROM ??', [dbPrefix + "specialVoiceChannel"], async (error, results, fields) => {
@@ -83,7 +83,7 @@ module.exports.run = async (bot) => {
             try {
                 await bot.channels.fetch(dataSpecialVoiceChannel.id);
             } catch {
-                bot.basicFunctions.get("dbDataSpecialVoiceChannel").delete(bot, dataSpecialVoiceChannel.id, (error, results, fields)=>{});
+                bot.basicFunctions.get("dbDataSpecialVoiceChannel").delete(bot, dataSpecialVoiceChannel.id, (error, results, fields) => {});
             }
         }
         return;
