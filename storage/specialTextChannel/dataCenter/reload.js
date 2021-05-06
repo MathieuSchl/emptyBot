@@ -13,7 +13,7 @@ module.exports.run = async (bot, message, dataSpecialChannel) => {
     commandsEmbed.setDescription("Cliquez sur les réactions pour faire l'action correspondante:\n\n" +
         "👋 => Permets de ping le bot\n" +
         "ℹ️ => Permets de faire un test de vitesse\n" +
-        "💣 => Permets d'éteindre le bot'")
+        "💣 => Permets d'éteindre le bot")
     channel.send(commandsEmbed).then(async (msg) => {
         for (let index = 0; index < emojiList.length; index++) {
             msg.react(emojiList[index]);
