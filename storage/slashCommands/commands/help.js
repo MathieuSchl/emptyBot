@@ -1,4 +1,18 @@
-const name = __filename.split("\\")[__filename.split("\\").length - 1].split(".")[0];
+const getName = () => {
+    const path = __filename;
+    const slashPath = path.split("/");
+    const backSlashPath = path.split("\\");
+    if (slashPath.length !== 1) {
+        return slashPath[slashPath.length - 1].split(".")[0];
+    }
+    if (backSlashPath.length !== 1) {
+        return backSlashPath[backSlashPath.length - 1].split(".")[0];
+    } else {
+        return null;
+    }
+}
+
+const name = getName();
 
 
 module.exports.runCmd = async (bot, channel, member, args) => {
