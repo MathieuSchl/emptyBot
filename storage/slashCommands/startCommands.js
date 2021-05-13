@@ -152,6 +152,7 @@ module.exports.run = async (bot) => {
                     }
                 })
                 .then(async (res) => {
+                    //console.log(interaction);
                     const command = interaction.data.name.toLowerCase();
                     const args = interaction.data.options;
                     const channel = await bot.channels.fetch(interaction.channel_id);
@@ -161,7 +162,7 @@ module.exports.run = async (bot) => {
                         const channel = await bot.channels.fetch(interaction.channel_id);
                         if (message && message.deletable) message.delete();
                         try {
-                            const member = await channel.guild.members.fetch(interaction.member.user.id);
+                            const member = interaction.member ? await channel.guild.members.fetch(interaction.member.user.id) : await bot.users.fetch(interaction.user.id);
                             require(pathSlashCommand + command).runCmd(bot, channel, member, args);
                         } catch (e) {
                             console.log(e);
