@@ -1,3 +1,4 @@
 storage/config.json
+storage/dataBase/dbConfig.json
 storage/data/*
 ConsoleFile.txt
