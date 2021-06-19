@@ -84,13 +84,6 @@ module.exports.run = async (bot) => {
         }
         return;
     });
-
-
-    const channelsToFetch = require("../storage/data/generalData.json").channelsToFetch;
-    channelsToFetch.forEach(async (element) => {
-        const channel = await bot.channels.fetch(element);
-        channel.messages.fetch();
-    });
 };
 
 
