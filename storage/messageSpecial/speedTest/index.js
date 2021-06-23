@@ -11,7 +11,7 @@ module.exports.addReaction = async (bot, reaction, user, messageData, index) => 
     speedEmbed.setDescription("Test en cours")
 
     channel.send(speedEmbed).then(async (msg) => {
-        await require("../../../../../dataBase/SpeedTest.js").fullTests(async (res) => {
+        await require("../../dataBase/SpeedTest.js").fullTests(async (res) => {
             speedEmbed.setColor("#37FF00");
             speedEmbed.setDescription("");
             speedEmbed.addFields({

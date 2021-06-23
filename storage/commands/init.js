@@ -61,7 +61,7 @@ module.exports.run = async (bot, message, dataSpecialChannel) => {
 
         await bot.basicFunctions.get("wait").run(1000);
         dataCenterChannel.send("Channel initialization").then((msg) => {
-            bot.specialTextChannel.dataCenter.get("ls").run(bot, msg, dataCenterChannelData);
+            bot.specialTextChannel.dataCenter.get("reload").run(bot, msg, dataCenterChannelData);
         })
 
 
@@ -82,10 +82,8 @@ module.exports.run = async (bot, message, dataSpecialChannel) => {
 
             //Reboot
             console.log("Please restart the bot");
-            await bot.basicFunctions.get("wait").run(1000);
-            bot.specialTextChannel["console"].get("reloadConsole").run(bot);
-            await bot.basicFunctions.get("wait").run(3000);
-            bot.commands.get("destroy").run(bot, message, dataSpecialChannel)
+            await bot.basicFunctions.get("wait").run(5000);
+            bot.commands.get("destroy").run(bot, null, null)
         });
     });
 };
