@@ -23,7 +23,7 @@ module.exports.run = async (bot) => {
                 msg = msg + element + "\n";
             } else {
                 channel.send("```\n" + msg + "```");
-                msg = element;
+                msg = element + "\n";
             }
         }
         channel.send("```\n" + msg + "```");
